@@ -44,7 +44,7 @@ def _safe_move(src: Path, dst: Path) -> str:
             return "already_moved"
         raise FileNotFoundError(f"Source file not found: {src}")
     dst.parent.mkdir(parents=True, exist_ok=True)
-    os.chmod(src, stat.S_IWRITE)
+    os.chmod(src, os.stat(src).st_mode | stat.S_IWUSR | stat.S_IRUSR)
     shutil.move(str(src), str(dst))
     return "moved"
 
